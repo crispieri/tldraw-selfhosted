@@ -1,8 +1,18 @@
 services:
   tldraw:
-    image: docker.io/foxxmd/tldraw:latest
-    ports:
-      - 5858:5858
+    image: tldraw-selfhosted:licensed
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_TLDRAW_LICENSE_KEY: ${VITE_TLDRAW_LICENSE_KEY}
+    restart: unless-stopped
+    expose:
+      - "5858"
     volumes:
-      - ./data/assets:/config/assets
-      - ./data/rooms:/config/rooms
+      - tldraw_assets:/config/assets
+      - tldraw_rooms:/config/rooms
+
+volumes:
+  tldraw_assets:
+  tldraw_rooms:
